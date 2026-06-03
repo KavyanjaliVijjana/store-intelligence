@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+streamlit
+pandas
+numpy
+opencv-python
+ultralytics
+supervision
+python-multipart
