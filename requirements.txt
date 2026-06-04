@@ -7,3 +7,5 @@ opencv-python
 ultralytics
 supervision
 python-multipart
+bytetrack
+supervision
