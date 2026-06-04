@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
+from app.metrics import zone_visits
 from app.events import load_events
-from app.metrics import footfall, average_dwell_time
+from app.metrics import footfall, average_dwell_time, zone_visits
 from app.anomalies import detect_anomalies
 
 app = FastAPI(title="Purplle Store Intelligence")
@@ -16,7 +17,7 @@ def home():
 def metrics():
 
     events = load_events(
-        "data/events/sample_events.jsonl"
+        "data/events/generated.jsonl"
     )
 
     return {
@@ -29,7 +30,7 @@ def metrics():
 def funnel():
 
     events = load_events(
-        "data/events/sample_events.jsonl"
+        "data/events/generated.jsonl"
     )
 
     entered = len(
@@ -55,7 +56,16 @@ def funnel():
 def anomalies():
 
     events = load_events(
-        "data/events/sample_events.jsonl"
+        "data/events/generated.jsonl"
     )
 
     return detect_anomalies(events)
+
+@app.get("/zones")
+def zones():
+
+    events = load_events(
+        "data/events/generated.jsonl"
+    )
+
+    return zone_visits(events)

@@ -53,3 +53,11 @@ else:
     st.success(
         "No anomalies detected"
     )
+
+zones = requests.get(
+    "http://127.0.0.1:8000/zones"
+).json()
+
+st.subheader("Zone Visits")
+
+st.bar_chart(zones)

@@ -4,14 +4,16 @@ from datetime import datetime
 def save_event(
     person_id,
     event_type,
-    camera_id
+    camera_id,
+    zone_name=None
 ):
 
     event = {
         "id_token": str(person_id),
         "event_type": event_type,
         "camera_id": camera_id,
-        "event_timestamp": datetime.now().isoformat()
+        "event_timestamp": datetime.now().isoformat(),
+        "zone_name": zone_name
     }
 
     with open(

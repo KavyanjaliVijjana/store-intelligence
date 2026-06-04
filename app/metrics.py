@@ -35,3 +35,15 @@ def average_dwell_time(events):
         return 0
 
     return round(sum(dwell_times) / len(dwell_times), 2)
+
+def zone_visits(events):
+
+    zone_events = events[
+        events["event_type"] == "zone_entered"
+    ]
+
+    return (
+        zone_events["zone_name"]
+        .value_counts()
+        .to_dict()
+    )
