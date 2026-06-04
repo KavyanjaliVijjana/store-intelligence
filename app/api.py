@@ -4,6 +4,11 @@ from app.metrics import zone_visits
 from app.events import load_events
 from app.metrics import footfall, average_dwell_time, zone_visits
 from app.anomalies import detect_anomalies
+from app.sales_metrics import (
+    load_sales_data,
+    get_sales_metrics,
+    conversion_rate
+)
 
 app = FastAPI(title="Purplle Store Intelligence")
 
@@ -69,3 +74,40 @@ def zones():
     )
 
     return zone_visits(events)
+
+@app.get("/sales_metrics")
+def sales_metrics():
+
+    sales_df = load_sales_data(
+        "data/sample_transactions.csv"
+    )
+
+    return get_sales_metrics(
+        sales_df
+    )
+
+@app.get("/business_metrics")
+def business_metrics():
+
+    events = load_events(
+        "data/events/generated.jsonl"
+    )
+
+    sales = load_sales_data(
+        "data/sample_transactions.csv"
+    )
+
+    visitors = footfall(events)
+
+    sales_data = get_sales_metrics(
+        sales
+    )
+
+    sales_data["conversion_rate"] = (
+        conversion_rate(
+            visitors,
+            sales_data["total_orders"]
+        )
+    )
+
+    return sales_data
